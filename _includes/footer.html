@@ -2,7 +2,9 @@
 
   <ul class="contact-list">
     <li>{{ site.title }}</li>
-    <li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>
+    <li>
+      <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
+    </li>
   </ul>
 
   <ul class="social-media-list">
@@ -17,6 +19,7 @@
       {% include icon-twitter.html username=site.twitter_username %}
     </li>
     {% endif %}
+    <li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>
   </ul>
 
   <p>{{ site.description }}</p>
