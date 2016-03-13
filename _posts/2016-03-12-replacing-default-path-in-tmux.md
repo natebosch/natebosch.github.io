@@ -14,7 +14,7 @@ the same working directory as the current session.
 
 I hacked around it by creating a new session with the appropriate path,
 renaming it to match, and shuffling windows over. The new session has a working
-directory from wherever it was run so it simulates what `tmux pset-option
+directory from wherever it was run so it simulates what `tmux set-option
 default-path "$PWD"` used to do. Here's the zsh function:
 
 ```zsh
