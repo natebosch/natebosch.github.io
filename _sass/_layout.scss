@@ -1,22 +1,76 @@
 .site-header {
-  border-top: 5px solid $grey-color-dark;
-  border-bottom: 1px solid $grey-color-light;
-  min-height: 56px;
-
-  // Positioning context for the mobile navigation icon
-  position: relative;
-
+  background-color: $grey-color-light;
   display: flex;
+  height: 68px;
   justify-content: center;
+  position: fixed;
+  top: 0;
+  transition: all 1s;
+  width: 100%;
+
+  &.scrolled {
+    border: 0;
+    height: 128px;
+    opacity: 0.7;
+    padding-left: 10px;
+    width: 72px;
+
+    @include media-query($on-laptop) {
+      transform: translatex(-82px);
+    }
+  }
+
+  span {
+    font-size: 1em;
+    position: fixed;
+    top: 0;
+    transition: all 1s;
+
+    &.less {
+      left: calc(50% - 152.5px);
+    }
+
+    &.worse {
+      left: calc(50% - 152.5px + 62px);
+    }
+
+    &.more {
+      left: calc(50% - 152.5px + 156px);
+    }
+
+    &.better {
+      left: calc(50% - 152.5px + 230px);
+    }
+  }
+
+  &.scrolled span {
+    font-size: .75em;
+    left: 8px;
+
+    &.less {
+      top: 0;
+    }
+
+    &.worse {
+      top: 20px;
+    }
+
+    &.more {
+      top: 40px;
+    }
+
+    &.better {
+      top: 60px;
+    }
+  }
 }
 
 .site-title {
-  font-size: 26px;
+  font-size: 2em;
   font-weight: 300;
   line-height: 56px;
   letter-spacing: -1px;
-  margin-bottom: 0;
-  margin-right: 20px;
+  margin: 0;
 
   &,
   &:visited {
@@ -91,11 +145,9 @@
   }
 }
 
-
-
 .site-footer {
   border-top: 1px solid $grey-color-light;
-  padding: $spacing-unit 0;
+  padding: $vertical-spacing 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -126,7 +178,7 @@
   list-style: none;
 
   > li {
-    margin-bottom: $spacing-unit;
+    margin-bottom: $vertical-spacing;
   }
 }
 
@@ -143,7 +195,7 @@
 
 
 .post-header {
-  margin-bottom: $spacing-unit;
+  margin-bottom: $vertical-spacing;
 }
 
 .post-title {
@@ -157,7 +209,7 @@
 }
 
 .post-content {
-  margin-bottom: $spacing-unit;
+  margin-bottom: $vertical-spacing;
 
   h2 {
     font-size: 32px;
