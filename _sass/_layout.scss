@@ -5,7 +5,7 @@
   justify-content: center;
   position: fixed;
   top: 0;
-  transition: all 1s;
+  transition: all 0.8s, opacity 0.4s;
   width: 100%;
 
   &.scrolled {
@@ -24,7 +24,7 @@
     font-size: 1em;
     position: fixed;
     top: 0;
-    transition: all 1s;
+    transition: all 0.8s;
 
     &.less {
       left: calc(50% - 152.5px);
