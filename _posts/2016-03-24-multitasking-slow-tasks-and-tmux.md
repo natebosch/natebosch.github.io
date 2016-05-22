@@ -59,7 +59,9 @@ I use an alias to raise a bell: `alias bell="print -n '\a'"`.
 
 And I pull it all together by postfixing slow commands with `; bell` so I'm
 alerted as soon as they are finished and I can come back to take next steps. If
-I'm engaged in something else it will just sit until I'm ready to respond.
+I'm engaged in something else it will just sit until I'm ready to respond. If I
+forget to add the alert when I started the command I can pause it with ctrl-z
+and run `fg ; bell`.
 
 # Some caveats
 
