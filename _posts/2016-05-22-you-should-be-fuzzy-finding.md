@@ -38,6 +38,6 @@ out previous duplicates by rewriting the history file with `fc -W`.
 - Keep projects in a consistent directory and fuzzy jump to
   [projects](https://github.com/natebosch/dotfiles/blob/master/bin/project)
 - Jump to previously opened buffers in vim
-- Jump to git commits by fuzzy searching descriptoin titles with vim-fugitive
+- Jump to git commits by fuzzy searching description titles with vim-fugitive
 - Quickly rerun vim commands or searches
 - Fuzzy search lines across all open buffers
