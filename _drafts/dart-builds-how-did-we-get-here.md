@@ -3,7 +3,7 @@ layout: post
 title:  Dart Builds - Where are we, how did we get here, and where are we going?
 ---
 
-# Where we were: pub build (barback)
+## Where we were: pub build (barback)
 
 When barback was written it was intended to satisfy a small need within web
 development: things like sass compilation, or compacting sprites to a single
@@ -49,7 +49,7 @@ time. There is limited caching and cross-run incremental compiles. The fact that
 there is not a consistent view of what a single file looks like make these hard
 or impossible to add in.
 
-# How we got here: bridging the gap with `package:build`
+## How we got here: bridging the gap with `package:build`
 
 As teams inside Google were building ever bigger and bigger projects we were
 also running into other difficulties integrating pub's "write whatever,
@@ -93,7 +93,7 @@ bazel, but only for a fraction of our users on a fraction of their projects.
 [dazel]: https://pub.dartlang.org/packages/dazel
 [ddc]: https://webdev.dartlang.org/tools/dartdevc
 
-# Where we are: `build_runner` as a full build system
+## Where we are: `build_runner` as a full build system
 
 Although it was originally written to satisfy a small part of the use case for
 builders - generating code in a single package intended to be published with the
@@ -112,16 +112,16 @@ With Dart 2 we're completely transitioning builds for web projects to
 `build_runner` (though we're calling the CLI `webdev`) and we've dropped support
 for the `build` and `serve` commands in `pub`.
 
-# Where we are going: better, faster builds
+## Where we are going: better, faster builds
 
-## Easier
+### Easier
 
 We're pushing more of the configuration and complexity on to the authors of
 Builders so that end users don't need to do manual work. Most Builders can be
 enabled automatically based on dependencies and the Builder configuration is
 expressive enough to automatically determine things like the order of work.
 
-## Better
+### Better
 
 We've proven that `build_runner` works for many projects using a small set of
 Builders. We'll be working on expanding the happy path and blunting the sharp
@@ -134,7 +134,7 @@ server. Unlike with `pub build`, generated assets live on disk and not in
 memory. Other tools can see these files which make them easier to inspect,
 debug, and understand.
 
-## Faster
+### Faster
 
 We wanted to move quickly to a working end-to-end system - when we could reuse
 code we did. Some of the APIs we use were written pub compatibility in mind.
@@ -143,7 +143,7 @@ other Transformer wouldn't and so we needed to be cautious. We have a lot of
 room for improvement now that we can focus on build system that has a statically
 analyzable model.
 
-## Stronger
+### Stronger
 
 Despite it's restrictions we're focusing on making sure the new build system has
 right generalizations for Dart. In fact, it's capable of running our web
