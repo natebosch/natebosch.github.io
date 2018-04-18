@@ -49,32 +49,32 @@ time. There is limited caching and cross-run incremental compiles. The fact that
 there is not a consistent view of what a single file looks like make these hard
 or impossible to add in.
 
-# How we got here: bridging the gap with package:build
+# How we got here: bridging the gap with `package:build`
 
 As teams inside Google were building ever bigger and bigger projects we were
 also running into other difficulties integrating pub's "write whatever,
-whenever" approach with bazel's much stricter statically analyzable build graph.
-We could not take pub's model and make it incremental or modular - it *has* to
-be monolithic. Bazel does not allow you to rewrite a file. Source files can't be
-changed, and anything that generates an output needs to happen in a single build
-step. We wrote package:build with a more restrictive model which could let us
-run with a bazel-like set of restrictions while easily shimming to the `pub`
-interface when we want to run in that build environment. Over time we gradually
-adopted, in addition to the bazel restrictions, a definition approach that added
-bazel's static analyzability. Instead of executing Dart code to determine the
-files that will be written, we shifted to configuration metadata which says what
-output extensions can be output for a given input extension. The `Builder`
-concept was more restrictive to the author, but gave us a lot more flexibility
-to integrate it with build systems. We could take a single Builder
-implementation and run it in three ways - as a Transformer in pub, as a build
-rule in a Bazel build, or by writing to the source tree directly using
-`build_runner` for smaller local-only builders.
+whenever" approach with [bazel's][bazel] much stricter statically analyzable
+build graph. We could not take pub's model and make it incremental or modular -
+it *has* to be monolithic. Bazel does not allow you to rewrite a file. Source
+files can't be changed, and anything that generates an output needs to happen in
+a single build step. We wrote [package:build][] with a more restrictive model
+which could let us run with a bazel-like set of restrictions while easily
+shimming to the `pub` interface when we want to run in that build environment.
+Over time we gradually adopted, in addition to the bazel restrictions, a
+definition approach that added bazel's static analyzability. Instead of
+executing Dart code to determine the files that will be written, we shifted to
+configuration metadata which says what output extensions can be output for a
+given input extension. The `Builder` concept was more restrictive to the author,
+but gave us a lot more flexibility to integrate it with build systems. We could
+take a single Builder implementation and run it in three ways - as a Transformer
+in pub, as a build rule in a Bazel build, or by writing to the source tree
+directly using `build_runner` for smaller local-only builders.
 
 Our long term goal for the build package was to enable external users to use the
 full power of the bazel build system like our internal users. We built a
-prototype for `dazel` - a tool that could take builder configuration metadata
-and generate the skylark build rules and BUILD files necessary for a Dart
-project. We hit a few roadblocks with this approach:
+prototype for [`dazel`][dazel] - a tool that could take builder configuration
+metadata and generate the skylark build rules and BUILD files necessary for a
+Dart project. We hit a few roadblocks with this approach:
 
 - Internally we only need to build Dart on unix hosts but some Dart users
   develop on Windows. It would take a lot of effort to migrate our bazel build
@@ -82,11 +82,16 @@ project. We hit a few roadblocks with this approach:
 - The bazel build system, despite attempts to hide it's complexity, still feels
   heavyweight for smaller projects which worked with the simpler `pub build`.
 
-We were in a tough position. Our dev compiler is tricky to use without being
-tightly integrated into a build system. External Angular builds were too slow to
-be acceptable for most users, and the cost to generate angular code was paid
-every time pub serve was started. We could give a good experience with bazel,
-but only for a fraction of our users on a fraction of their projects.
+We were in a tough position. Our [dev compiler][ddc] is tricky to use without
+being tightly integrated into a build system. External Angular builds were too
+slow to be acceptable for most users, and the cost to generate angular code was
+paid every time pub serve was started. We could give a good experience with
+bazel, but only for a fraction of our users on a fraction of their projects.
+
+[bazel]: https://bazel.build/
+[package:build]: https://pub.dartlang.org/packages/build
+[dazel]: https://pub.dartlang.org/packages/dazel
+[ddc]: https://webdev.dartlang.org/tools/dartdevc
 
 # Where we are: `build_runner` as a full build system
 
@@ -144,5 +149,7 @@ Despite it's restrictions we're focusing on making sure the new build system has
 right generalizations for Dart. In fact, it's capable of running our web
 compilers without any hardcoded knowledge - they appear to the system like any
 other Builder - something that was not possible with Barback. The benefit is
-that we can swap out implementations, say for compilers tuned for `node.js`
-without changes to the build system itself.
+that we can swap out implementations, say for compilers tuned for
+[`node.js`][build_node_compilers] without changes to the build system itself.
+
+[build_node_compilers]: https://pub.dartlang.org/packages/build_node_compilers
