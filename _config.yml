@@ -3,7 +3,7 @@ email: nbosch1@gmail.com
 description: > # this means to ignore newlines until "baseurl:"
   Musings on programming and productivity.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "lessworsemorebetter.com"
+url: "http://lessworsemorebetter.com"
 github_username:  natebosch
 
 # Build settings
