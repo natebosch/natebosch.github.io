@@ -13,15 +13,15 @@ though. If any file can be rewritten (or deleted) at any step in the build, then
 care needs to be taken not to let other build steps read it until it is
 'stable'. Barback adds protection with what turns out to be a significant
 limitation - a Transformer running in package `Foo` can't read _any_ file from
-package `Bar` until all transformer on `Bar` have finished. This is problematic
-in the context of Dart source files because of features like type inference. In
-order to understand the "meaning" of a Dart source file it is necessary to also
-understand details from imported libraries. If two Transformers running in
-different packages want to understand the resolved meaning of a Dart library
-they must read transitive imports - and when those imports cycle across package
-boundaries it can cause deadlock in Barback. Neither Transformer is allowed to
-read imported Dart libraries until the other finishes, and neither will finish
-until it can read the files.
+package `Bar` until _all_ transformers on `Bar` have finished. This is
+problematic in the context of Dart source files because of features like type
+inference. In order to understand the "meaning" of a Dart source file it is
+necessary to also understand details from imported libraries. If two
+Transformers running in different packages want to understand the resolved
+meaning of a Dart library they must read transitive imports - and when those
+imports cycle across package boundaries it will cause deadlock in Barback.
+Neither Transformer is allowed to read imported Dart libraries until the other
+finishes, and neither will finish until it can read the files.
 
 This fundamental limitation meant that the Angular compiler before version 4 had
 to cheat the system. Barback wouldn't let it read the source Dart files - but
@@ -105,12 +105,12 @@ projects. There are two major areas we've improved:
 - We've expanded the power of `build_runner` to run builds across all packages,
   and for files that are not intended to be published.
 - We've improved the usability of `build_runner` so that it can be used more
-  like `pub build` with automatic discovery of Builders rather than hardcoding
-  the build into a manual build script.
+  like `pub build` with automatic discovery of Builders rather than expressing
+  all the requirements in a manual build script.
 
 With Dart 2 we're completely transitioning builds for web projects to
-`build_runner` (though we're calling the CLI `webdev`) and we've dropped support
-for the `build` and `serve` commands in `pub`.
+`build_runner` (we're calling the CLI `webdev`) and we've dropped support for
+the `build` and `serve` commands in `pub`.
 
 ## Where we are going: better, faster builds
 
@@ -120,6 +120,8 @@ We're pushing more of the configuration and complexity on to the authors of
 Builders so that end users don't need to do manual work. Most Builders can be
 enabled automatically based on dependencies and the Builder configuration is
 expressive enough to automatically determine things like the order of work.
+Builder authors can also decide default options for dev and release mode, so all
+it takes to enable `dart2js` compilation is `--release`!
 
 ### Better
 
@@ -146,10 +148,10 @@ analyzable model.
 ### Stronger
 
 Despite it's restrictions we're focusing on making sure the new build system has
-right generalizations for Dart. In fact, it's capable of running our web
+the right generalizations for Dart. In fact, it's capable of running our web
 compilers without any hardcoded knowledge - they appear to the system like any
 other Builder - something that was not possible with Barback. The benefit is
-that we can swap out implementations, say for compilers tuned for
-[`node.js`][build_node_compilers] without changes to the build system itself.
+that we can swap out implementations, say for [compilers tuned for
+`node.js`][build_node_compilers], without changes to the build system itself.
 
 [build_node_compilers]: https://pub.dartlang.org/packages/build_node_compilers
